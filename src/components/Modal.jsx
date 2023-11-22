@@ -2,17 +2,27 @@ import { useState } from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
+import { postCreateUser } from "../services/UserServices.jsx";
+import { toast } from "react-toastify";
 
-function Example() {
+const Example = () => {
   const [show, setShow] = useState(false);
-  const [name, setName] = useState("");
+  const [nameUser, setName] = useState("");
   const [job, setJob] = useState("");
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-  const handleSaveUser = () => {
-    console.log(">>> name ", name, ">>> job ", job);
+  const handleSaveUser = async () => {
+    let res = await postCreateUser(nameUser, job);
+    if (res.data && res.data.id) {
+      console.log(">>>>> name: ", nameUser, ">>>> job: ", job);
+      handleClose();
+      setName("");
+      setJob("");
+    }
   };
+  const notify = () => toast.success("Add new user!");
+
   return (
     <>
       <Button
@@ -22,7 +32,6 @@ function Example() {
       >
         Add new user
       </Button>
-
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton className="bg-[#212529] text-[#acb5bd]">
           <Modal.Title>Add New User</Modal.Title>
@@ -34,7 +43,7 @@ function Example() {
               <Form.Control
                 type="text"
                 placeholder="Name"
-                value={name}
+                value={nameUser}
                 onChange={(event) => setName(event.target.value)}
               />
             </Form.Group>
@@ -53,13 +62,16 @@ function Example() {
           <Button variant="secondary" onClick={handleClose}>
             Close
           </Button>
-          <Button variant="primary" onClick={() => handleSaveUser()}>
+          <Button
+            variant="primary"
+            onClick={() => handleSaveUser() && notify()}
+          >
             Save Changes
           </Button>
         </Modal.Footer>
       </Modal>
     </>
   );
-}
+};
 
 export default Example;

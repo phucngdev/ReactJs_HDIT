@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Table from "react-bootstrap/Table";
 import Container from "react-bootstrap/Container";
-import UserServices from "../services/UserServices.jsx";
+import { UserServices } from "../services/UserServices.jsx";
 import ReactPaginate from "react-paginate";
 import Example from "../components/Modal.jsx";
 

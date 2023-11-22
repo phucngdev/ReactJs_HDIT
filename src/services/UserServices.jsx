@@ -1,8 +1,12 @@
 import React from "react";
 import axios from "./axios";
 
-const UserServices = (page) => {
+export const UserServices = (page) => {
   return axios.get(`/api/users?page=${page}`);
 };
 
-export default UserServices;
+export const postCreateUser = (nameUser, job) => {
+  return axios.post("/api/users", { nameUser, job });
+};
+
+// export default { UserServices, postCreateUser };
